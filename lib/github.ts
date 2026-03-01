@@ -60,10 +60,10 @@ export async function fetchRepoTree(owner: string, repo: string): Promise<FileNo
 
         const data: GitHubTreeResponse = await response.json();
         return data.tree
-            .filter((item) => item.type === "blob")
+            .filter((item) => item.type === "blob" || item.type === "tree")
             .map((item) => ({
                 path: item.path,
-                type: "blob" as const,
+                type: item.type as "blob" | "tree",
                 size: item.size,
             }));
     }
